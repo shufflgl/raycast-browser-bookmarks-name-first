@@ -1,5 +1,11 @@
 # Browser Bookmarks Changelog
 
+## [Repository Rename and Distribution] - 2026-08-19
+
+- Renamed the GitHub repository to `raycast-browser-bookmarks-name-first`
+- Updated repository and source-download links to use the explicit Raycast-prefixed name
+- Prepared the `v1.0.1` source release with the improved attribution and license documentation
+
 ## [Documentation and Attribution] - 2026-08-19
 
 - Added a prominent standalone license section linking to the complete MIT license
