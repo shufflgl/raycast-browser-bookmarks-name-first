@@ -1,5 +1,13 @@
 # Browser Bookmarks Changelog
 
+## [Documentation and Attribution] - 2026-08-19
+
+- Added a prominent standalone license section linking to the complete MIT license
+- Added an attribution notice naming the original extension, author, repository, and base commit
+- Preserved the original author in the extension manifest as a past contributor
+- Clarified that this project is an independent, unofficial fork with no implied endorsement
+- Documented the fork's modifications separately from the preserved upstream behavior
+
 ## [Name-First Personal Fork] - 2026-08-19
 
 - Ranked exact, prefix, and substring bookmark-name matches ahead of fuzzy relevance
