@@ -20,8 +20,8 @@ Install **Browser Bookmarks — Name First** from the [Ygdra Private Store](http
 
 ## Download
 
-- [Download the v1.0.0 source ZIP](https://github.com/shufflgl/browser-bookmarks-name-first/releases/download/v1.0.0/browser-bookmarks-name-first-v1.0.0.zip)
-- [Browse the source on GitHub](https://github.com/shufflgl/browser-bookmarks-name-first)
+- [Download the v1.0.1 source ZIP](https://github.com/shufflgl/raycast-browser-bookmarks-name-first/releases/download/v1.0.1/raycast-browser-bookmarks-name-first-v1.0.1.zip)
+- [Browse the source on GitHub](https://github.com/shufflgl/raycast-browser-bookmarks-name-first)
 
 The ZIP is a portable source package, not a standalone Raycast installer. Unzip it, then run the local-development commands below. For normal use, prefer the Private Store link above.
 
