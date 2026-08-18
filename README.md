@@ -1,6 +1,10 @@
 # Browser Bookmarks — Name First
 
-This is a personal fork of Raycast's Browser Bookmarks extension, published privately to the **Ygdra** Raycast organization. It keeps the upstream browser and profile compatibility while changing only search-result ranking:
+**Unofficial personal fork · [MIT licensed](./LICENSE) · [Original extension](https://github.com/raycast/extensions/tree/main/extensions/browser-bookmarks)**
+
+This project is an independent fork of Raycast's **Browser Bookmarks** extension, published privately to the **Ygdra** Raycast organization. It is not maintained by, affiliated with, or endorsed by Raycast or the original author.
+
+It keeps the upstream browser and profile compatibility while changing only search-result ranking:
 
 1. Exact bookmark-name match
 2. Bookmark-name prefix match
@@ -25,17 +29,31 @@ For local development:
 
 ```sh
 npm install
+npm test
+npm run lint
+npm run build
 npm run dev
 ```
 
 The command is named **Search Browser Bookmarks by Name** so it can coexist with the public Store version during comparison. The package is private and publishes only to the Ygdra organization (`yggdrashufflgl`).
 
-## Upstream Base
+## Attribution
 
-- Repository: https://github.com/raycast/extensions
-- Extension: `extensions/browser-bookmarks`
-- Base commit: `f38af6030233f08b358478e19e818fc71e58ec9d`
-- License: MIT; see `LICENSE`
+This project is derived from the open-source **Browser Bookmarks** extension maintained in Raycast's extensions repository.
+
+- Original extension: [Browser Bookmarks](https://github.com/raycast/extensions/tree/f38af6030233f08b358478e19e818fc71e58ec9d/extensions/browser-bookmarks)
+- Original author: [Thomas Lombart (`thomaslombart`)](https://github.com/thomaslombart)
+- Upstream repository: [raycast/extensions](https://github.com/raycast/extensions)
+- Base commit: [`f38af6030233f08b358478e19e818fc71e58ec9d`](https://github.com/raycast/extensions/commit/f38af6030233f08b358478e19e818fc71e58ec9d)
+- Copyright notice: `Copyright (c) 2021 Raycast`
+
+The upstream contributor and past-contributor lists are preserved in [`package.json`](./package.json). See [`NOTICE.md`](./NOTICE.md) for the complete provenance and modification notice.
+
+## License
+
+This project is distributed under the [MIT License](./LICENSE), the same license used by the upstream Raycast extensions repository.
+
+The original Raycast copyright and permission notice are retained unchanged. The MIT License permits use, copying, modification, publication, distribution, sublicensing, and sale, provided that the copyright and permission notice remain included in copies or substantial portions of the software. Third-party dependencies remain subject to their respective licenses.
 
 ## Original Documentation
 
