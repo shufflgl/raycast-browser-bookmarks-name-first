@@ -85,7 +85,7 @@
     "fix-lint": "ray lint --fix",
     "lint": "ray lint",
     "publish": "ray publish",
-    "test": "node --experimental-strip-types --test src/utils/search.test.ts"
+    "test": "node --experimental-strip-types --test src/utils/*.test.ts"
   },
   "platforms": [
     "macOS",
