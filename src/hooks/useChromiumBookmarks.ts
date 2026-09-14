@@ -1,10 +1,12 @@
-import { existsSync, readdirSync, readFile } from "fs";
+import { existsSync, readFile } from "fs";
 import { stat } from "fs/promises";
 import { join } from "path";
 import { promisify } from "util";
 
 import { useCachedPromise, useCachedState } from "@raycast/utils";
 import { useCallback, useEffect, useRef } from "react";
+
+import { getChromiumProfiles } from "../utils/chromiumProfiles";
 
 const read = promisify(readFile);
 
@@ -89,16 +91,6 @@ type Folder = {
   title: string;
 };
 
-type ChromiumProfile = {
-  path: string;
-  name: string;
-};
-
-type ChromiumProfilesResult = {
-  profiles: ChromiumProfile[];
-  defaultProfile: string;
-};
-
 function getFolders(bookmark: BookmarkFolder | BookmarkItem, hierarchy = ""): Folder[] {
   const folders: Folder[] = [];
 
@@ -112,69 +104,6 @@ function getFolders(bookmark: BookmarkFolder | BookmarkItem, hierarchy = ""): Fo
   }
 
   return folders;
-}
-
-async function getChromiumProfilesFallback(path: string): Promise<ChromiumProfilesResult> {
-  if (!existsSync(path)) return { profiles: [], defaultProfile: "" };
-
-  let profiles;
-  try {
-    profiles = readdirSync(path, { withFileTypes: true })
-      .filter((d) => d.isDirectory() && hasChromiumBookmarksFile(path, d.name))
-      .map((d) => ({ path: d.name, name: d.name }));
-  } catch {
-    return { profiles: [], defaultProfile: "" };
-  }
-
-  profiles.sort((a, b) => a.name.localeCompare(b.name));
-  const defaultProfile = profiles.find((p) => p.path === "Default")?.path || profiles[0]?.path || "";
-
-  return { profiles, defaultProfile };
-}
-
-async function getChromiumProfiles(path: string): Promise<ChromiumProfilesResult> {
-  if (!existsSync(`${path}/Local State`)) {
-    return { profiles: [], defaultProfile: "" };
-  }
-
-  let file: string;
-  try {
-    file = await read(`${path}/Local State`, "utf-8");
-  } catch {
-    // Handle permission errors (EPERM) or other file access errors
-    return getChromiumProfilesFallback(path);
-  }
-
-  let localState;
-  try {
-    localState = JSON.parse(file);
-  } catch {
-    return getChromiumProfilesFallback(path);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const profileInfoCache: Record<string, any> = localState.profile.info_cache;
-
-  const profiles = Object.entries(profileInfoCache)
-    .filter(([profilePath]) => {
-      try {
-        return hasChromiumBookmarksFile(path, profilePath);
-      } catch {
-        return false;
-      }
-    })
-    .map(([path, profile]) => {
-      return {
-        path,
-        name: profile.name,
-      };
-    });
-
-  const defaultProfile =
-    localState.profile?.last_used?.length > 0 ? localState.profile.last_used : profiles[0]?.path || "";
-
-  profiles.sort((a, b) => a.name?.localeCompare(b.name));
-  return { profiles, defaultProfile };
 }
 
 async function getFileSignature(filePath: string) {
@@ -214,6 +143,7 @@ export default function useChromiumBookmarks(
 
   const {
     data: profilesData,
+    error: profilesError,
     isLoading: isLoadingProfiles,
     mutate: mutateProfiles,
   } = useCachedPromise(
@@ -244,6 +174,7 @@ export default function useChromiumBookmarks(
 
   const {
     data,
+    error: bookmarksError,
     isLoading: isLoadingBookmarks,
     mutate: mutateBookmarks,
   } = useCachedPromise(
@@ -358,6 +289,7 @@ export default function useChromiumBookmarks(
   return {
     bookmarks,
     folders,
+    error: profilesError ?? bookmarksError,
     isLoading,
     mutate,
     profiles: profiles || [],
