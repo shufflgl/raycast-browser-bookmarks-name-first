@@ -857,12 +857,46 @@ export default function Command() {
       })}
 
       <List.EmptyView
-        title="You don't have any bookmarks"
-        description="Press ⏎ to select the browsers you want to import bookmarks from."
+        title={chrome.error ? "Could not read Chrome bookmarks" : "No bookmarks found"}
+        description={
+          chrome.error
+            ? chrome.error.message
+            : hasChrome && chrome.profiles.length === 0
+              ? "No Chrome profiles with bookmark files were found. Check Chrome's Profile Path at chrome://version."
+              : "Select a browser or Chrome profile, then refresh."
+        }
         icon="empty-state.png"
         actions={
           <ActionPanel>
             <SelectBrowserAction browsers={browsers} setBrowsers={setBrowsers} />
+            {hasChrome ? (
+              <>
+                <SelectProfileSubmenu
+                  availableBrowsers={availableBrowsers}
+                  bundleId={BROWSERS_BUNDLE_ID.chrome}
+                  name="Chrome"
+                  icon="chrome.png"
+                  shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
+                  profiles={chrome.profiles}
+                  currentProfile={chrome.currentProfile}
+                  setCurrentProfile={chrome.setCurrentProfile}
+                />
+                <Action.CopyToClipboard
+                  title="Copy Chrome Diagnostics"
+                  content={JSON.stringify(
+                    { profiles: chrome.profiles, selectedProfile: chrome.currentProfile, error: chrome.error?.message },
+                    null,
+                    2,
+                  )}
+                />
+              </>
+            ) : null}
+            <Action
+              title="Refresh"
+              icon={Icon.ArrowClockwise}
+              shortcut={{ modifiers: ["cmd"], key: "r" }}
+              onAction={mutateBookmarks}
+            />
           </ActionPanel>
         }
       />
